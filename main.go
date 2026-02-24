@@ -164,8 +164,6 @@ func parseInput(filename string) (*Colony, error) {
 // "used" (forward capacity decreased), until no more paths exist.
 // =====================================================================
 
-const INF = 1 << 30
-
 // nodeIn / nodeOut return the split node names for a room
 func nodeIn(room string) string  { return room + "|in" }
 func nodeOut(room string) string { return room + "|out" }
@@ -260,14 +258,8 @@ func edmondsKarp(graph map[string][]string, cap map[[2]string]int, source, sink 
 		if prev == nil {
 			break
 		}
-		// Find bottleneck (min capacity along path) — always 1 here
-		flow := INF
-		for node := sink; node != source; node = prev[node] {
-			p := prev[node]
-			if c := cap[[2]string{p, node}]; c < flow {
-				flow = c
-			}
-		}
+		// All edges in this graph have capacity 1, so the bottleneck is always 1
+		flow := 1
 		// Update residual capacities
 		for node := sink; node != source; node = prev[node] {
 			p := prev[node]
@@ -490,7 +482,7 @@ func simulate(paths [][]string, numAnts int) []string {
 // =====================================================================
 
 func main() {
-	start := time.Now() 
+	start := time.Now()
 	if len(os.Args) != 2 {
 		fmt.Fprintln(os.Stderr, "Usage: go run . <filename>")
 		os.Exit(1)
