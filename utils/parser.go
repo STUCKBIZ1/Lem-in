@@ -7,10 +7,6 @@ import (
 	"strings"
 )
 
-// =====================================================================
-// PARSING
-// =====================================================================
-
 func ParseInput(filename string) (*Colony, error) {
 	data, err := os.ReadFile(filename)
 	if err != nil {
@@ -35,12 +31,12 @@ func ParseInput(filename string) (*Colony, error) {
 			continue
 		}
 
-		// --- Comments (always skip, regardless of parse state) ---
+		// Comments (always skip, regardless of parse state)
 		if strings.HasPrefix(t, "#") && t != "##start" && t != "##end" {
 			continue
 		}
 
-		// --- Ant count (must be first non-comment, non-empty line) ---
+		//  Ant count (must be first non-comment, non-empty line)
 		if !antsParsed {
 			n, err := strconv.Atoi(t)
 			if err != nil || n <= 0 {
@@ -51,7 +47,6 @@ func ParseInput(filename string) (*Colony, error) {
 			continue
 		}
 
-		// --- Commands ---
 		if t == "##start" {
 			if roomsDone {
 				return nil, fmt.Errorf("invalid data format, ##start found after links")
@@ -73,7 +68,7 @@ func ParseInput(filename string) (*Colony, error) {
 			continue
 		}
 
-		// --- Link: no spaces, has '-' ---
+		// Link: no spaces, has '-'
 		if !strings.Contains(t, " ") && strings.Contains(t, "-") {
 			roomsDone = true
 			parts := strings.SplitN(t, "-", 2)
@@ -103,7 +98,7 @@ func ParseInput(filename string) (*Colony, error) {
 			continue
 		}
 
-		// --- Room: "name x y" ---
+		// Room: "name x y"
 		parts := strings.Fields(t)
 		if len(parts) == 3 {
 			if roomsDone {

@@ -5,18 +5,6 @@ import (
 	"strings"
 )
 
-// =====================================================================
-// SIMULATION
-//
-// antStart[k] = the turn ant k takes its FIRST step out of ##start.
-// On turn T, ant k moves to: paths[antPath[k]][ T - antStart[k] + 1 ]
-//
-// No collisions because:
-//   - Same path: consecutive ants are 1 turn apart → never same room.
-//   - Different paths: node-disjoint (enforced by max-flow node splitting).
-//   - ##end: spec allows unlimited ants.
-// =====================================================================
-
 func Simulate(paths [][]string, numAnts int) []string {
 	plen := make([]int, len(paths))
 	for i, p := range paths {

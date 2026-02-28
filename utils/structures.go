@@ -1,9 +1,5 @@
 package utils
 
-// =====================================================================
-// DATA STRUCTURES
-// =====================================================================
-
 type Colony struct {
 	NumAnts   int
 	Rooms     []string // room names only

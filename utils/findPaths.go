@@ -2,9 +2,6 @@ package utils
 
 import "fmt"
 
-// findPaths finds the optimal set of node-disjoint paths minimizing total turns.
-// Uses Edmonds-Karp max-flow to correctly handle cases where greedy BFS
-// would pick a short path that blocks better parallel routes.
 func FindPaths(colony *Colony) ([][]string, error) {
 	graph, cap := buildResidualGraph(colony)
 
