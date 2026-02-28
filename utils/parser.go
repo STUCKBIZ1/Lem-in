@@ -22,12 +22,12 @@ func ParseInput(filename string) (*Colony, error) {
 		RawLines: lines,
 	}
 
-	roomSet := make(map[string]bool)      // for O(1) lookup
-	coordSet := make(map[[2]int]string)   // coord -> room name
+	roomSet := make(map[string]bool)
+	coordSet := make(map[[2]int]string)
 	antsParsed := false
 	nextIsStart := false
 	nextIsEnd := false
-	roomsDone := false // set to true once we see the first link
+	roomsDone := false
 
 	for _, line := range lines {
 		t := strings.TrimSpace(line)
@@ -35,7 +35,12 @@ func ParseInput(filename string) (*Colony, error) {
 			continue
 		}
 
-		// --- Ant count (must be first non-empty line) ---
+		// --- Comments (always skip, regardless of parse state) ---
+		if strings.HasPrefix(t, "#") && t != "##start" && t != "##end" {
+			continue
+		}
+
+		// --- Ant count (must be first non-comment, non-empty line) ---
 		if !antsParsed {
 			n, err := strconv.Atoi(t)
 			if err != nil || n <= 0 {
@@ -51,6 +56,9 @@ func ParseInput(filename string) (*Colony, error) {
 			if roomsDone {
 				return nil, fmt.Errorf("invalid data format, ##start found after links")
 			}
+			if colony.StartRoom != "" || nextIsStart {
+				return nil, fmt.Errorf("invalid data format, duplicate ##start")
+			}
 			nextIsStart = true
 			continue
 		}
@@ -58,10 +66,10 @@ func ParseInput(filename string) (*Colony, error) {
 			if roomsDone {
 				return nil, fmt.Errorf("invalid data format, ##end found after links")
 			}
+			if colony.EndRoom != "" || nextIsEnd {
+				return nil, fmt.Errorf("invalid data format, duplicate ##end")
+			}
 			nextIsEnd = true
-			continue
-		}
-		if strings.HasPrefix(t, "#") {
 			continue
 		}
 
@@ -87,7 +95,6 @@ func ParseInput(filename string) (*Colony, error) {
 		// --- Room: "name x y" ---
 		parts := strings.Fields(t)
 		if len(parts) == 3 {
-			// Room found after links → invalid order
 			if roomsDone {
 				return nil, fmt.Errorf("invalid data format, room %s defined after links", parts[0])
 			}
@@ -119,6 +126,8 @@ func ParseInput(filename string) (*Colony, error) {
 			}
 			continue
 		}
+
+		return nil, fmt.Errorf("invalid data format, unrecognized line: %s", t)
 	}
 
 	if colony.StartRoom == "" {
