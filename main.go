@@ -4,15 +4,9 @@ import (
 	"fmt"
 	"lem-in/utils"
 	"os"
-	"time"
 )
 
-// =====================================================================
-// MAIN
-// =====================================================================
-
 func main() {
-	start := time.Now()
 	if len(os.Args) != 2 {
 		fmt.Fprintln(os.Stderr, "Usage: go run . <filename>")
 		return
@@ -39,5 +33,4 @@ func main() {
 	for _, move := range moves {
 		fmt.Println(move)
 	}
-	fmt.Fprintf(os.Stderr, "\nTime: %v\n", time.Since(start))
 }

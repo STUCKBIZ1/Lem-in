@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -81,7 +80,6 @@ func bfsResidual(graph map[string][]string, cap map[[2]string]int, source, sink 
 func edmondsKarp(graph map[string][]string, cap map[[2]string]int, source, sink string) {
 	for {
 		prev := bfsResidual(graph, cap, source, sink)
-		fmt.Println(prev)
 		if prev == nil {
 			break
 		}
@@ -128,7 +126,6 @@ func decomposeFlow(graph map[string][]string, cap map[[2]string]int, origCap map
 		for node := sink; node != ""; node = prev[node] {
 			rawPath = append([]string{node}, rawPath...)
 		}
-		fmt.Println(rawPath)
 
 		for i := 0; i < len(rawPath)-1; i++ {
 			u, v := rawPath[i], rawPath[i+1]
