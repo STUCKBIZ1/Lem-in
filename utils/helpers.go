@@ -44,17 +44,9 @@ func buildResidualGraph(colony *Colony) (map[string][]string, map[[2]string]int)
 	}
 
 	// Tunnel edges
-	seen := map[[2]string]bool{}
 	for a, neighbors := range colony.Links {
 		for _, b := range neighbors {
-			key := [2]string{a, b}
-			rev := [2]string{b, a}
-			if seen[key] || seen[rev] {
-				continue
-			}
-			seen[key] = true
 			addEdge(nodeOut(a), nodeIn(b), 1)
-			addEdge(nodeOut(b), nodeIn(a), 1)
 		}
 	}
 
