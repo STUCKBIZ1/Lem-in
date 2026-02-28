@@ -15,12 +15,12 @@ func main() {
 	start := time.Now()
 	if len(os.Args) != 2 {
 		fmt.Fprintln(os.Stderr, "Usage: go run . <filename>")
-		os.Exit(1)
+		return
 	}
 	colony, err := utils.ParseInput(os.Args[1])
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "ERROR:", err)
-		os.Exit(1)
+		return
 	}
 
 	for _, line := range colony.RawLines {
@@ -31,7 +31,7 @@ func main() {
 	paths, err := utils.FindPaths(colony)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "ERROR:", err)
-		os.Exit(1)
+		return
 	}
 
 	for _, move := range utils.Simulate(paths, colony.NumAnts) {
