@@ -6,6 +6,7 @@ import "fmt"
 // Uses Edmonds-Karp max-flow to correctly handle cases where greedy BFS
 // would pick a short path that blocks better parallel routes.
 func FindPaths(colony *Colony) ([][]string, error) {
+	fmt.Println(colony)
 	graph, cap := buildResidualGraph(colony)
 
 	// Save original capacities for flow decomposition
