@@ -87,6 +87,17 @@ func ParseInput(filename string) (*Colony, error) {
 			if !roomSet[b] {
 				return nil, fmt.Errorf("invalid data format, unknown room: %s", b)
 			}
+			// Check for duplicate or reverse duplicate tunnel
+			for _, existing := range colony.Links[a] {
+				if existing == b {
+					return nil, fmt.Errorf("invalid data format, duplicate tunnel: %s-%s", a, b)
+				}
+			}
+			for _, existing := range colony.Links[b] {
+				if existing == a {
+					return nil, fmt.Errorf("invalid data format, duplicate tunnel: %s-%s", b, a)
+				}
+			}
 			colony.Links[a] = append(colony.Links[a], b)
 			colony.Links[b] = append(colony.Links[b], a)
 			continue
