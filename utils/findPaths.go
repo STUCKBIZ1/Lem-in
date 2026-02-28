@@ -27,12 +27,6 @@ func FindPaths(colony *Colony) ([][]string, error) {
 		return nil, fmt.Errorf("invalid data format, no path between start and end")
 	}
 
-	// Now find the BEST subset of these paths for N ants.
-	// Sort paths by length (shortest first).
-	// Try using 1 path, 2 paths, 3 paths... pick the subset with min turns.
-	// Since more shorter paths are always better, we sort by length and add greedily.
-	sortPathsByLength(allPaths)
-
 	bestTurns := -1
 	var bestPaths [][]string
 

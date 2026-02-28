@@ -146,19 +146,6 @@ func decomposeFlow(graph map[string][]string, cap map[[2]string]int, origCap map
 	return paths
 }
 
-// sortPathsByLength sorts paths ascending by length.
-func sortPathsByLength(paths [][]string) {
-	for i := 1; i < len(paths); i++ {
-		key := paths[i]
-		j := i - 1
-		for j >= 0 && len(paths[j]) > len(key) {
-			paths[j+1] = paths[j]
-			j--
-		}
-		paths[j+1] = key
-	}
-}
-
 // countTurns calculates how many turns N ants need across these paths.
 func countTurns(paths [][]string, numAnts int) int {
 	plen := make([]int, len(paths))
